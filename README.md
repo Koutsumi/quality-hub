@@ -56,4 +56,4 @@ Se você deseja rodar este portfólio localmente em um ambiente isolado:
 Este projeto foi estruturado para ser facilmente escalável. Se quiser adicionar um novo projeto, basta editar o array de dados no componente correspondente, e a interface se ajustará automaticamente graças à arquitetura de componentes reutilizáveis.
 📩 Vamos conversar?
 
-Se você gostou do que viu ou quer trocar uma ideia sobre desenvolvimento e QA, sinta-se à vontade para entrar em contato!
+Se você gostou do que viu ou quer trocar uma ideia sobre desenvolvimento e QA, sinta-se à vontade para entrar em contato!!
