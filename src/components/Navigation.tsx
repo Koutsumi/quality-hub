@@ -1,84 +1,80 @@
-import { useState, useEffect } from "react";
-import { Menu, X } from "lucide-react";
+import { useState, useEffect } from 'react';
 
 const Navigation = () => {
-  const [isScrolled, setIsScrolled] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   useEffect(() => {
-    const handleScroll = () => {
-      setIsScrolled(window.scrollY > 50);
+    const handleClick = (e: MouseEvent) => {
+      const target = e.target as HTMLElement;
+      const anchor = target.closest('a[href^="#"]');
+      if (anchor) {
+        e.preventDefault();
+        const id = anchor.getAttribute('href')!.slice(1);
+        const el = document.getElementById(id);
+        if (el) {
+          el.scrollIntoView({ behavior: 'smooth' });
+          setIsMenuOpen(false);
+        }
+      }
     };
-
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
+    document.addEventListener('click', handleClick);
+    return () => document.removeEventListener('click', handleClick);
   }, []);
 
-  const navLinks = [
-    { label: "Sobre", href: "#about" },
-    { label: "Experiência", href: "#experience" },
-    { label: "Habilidades", href: "#skills" },
-    { label: "Central QA", href: "#central-qa" },
-    { label: "Artigos", href: "#articles" },
-    { label: "Contato", href: "#contact" },
+  const links = [
+    { href: '#sobre', label: 'Sobre' },
+    { href: '#experiencia', label: 'Experiência' },
+    { href: '#habilidades', label: 'Habilidades' },
+    { href: '#projetos', label: 'Projetos' },
+    { href: '#artigos', label: 'Artigos' },
+    { href: '#contato', label: 'Contato' },
   ];
 
   return (
-    <nav
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-        isScrolled
-          ? "bg-background/80 backdrop-blur-lg border-b border-border"
-          : "bg-transparent"
-      }`}
-    >
-      <div className="container mx-auto px-6">
-        <div className="flex items-center justify-between h-16">
-          {/* Logo */}
-          <a href="#" className="font-display font-bold text-xl">
-            <span className="text-foreground">F</span>
-            <span className="text-primary">B</span>
-          </a>
+    <nav className="fixed top-0 left-0 right-0 z-50 h-[44px] bg-[#000000e6] backdrop-blur-md">
+      <div className="max-w-[980px] mx-auto h-full flex items-center justify-between px-6">
+        <a href="#" className="text-white font-semibold text-[14px] tracking-tight">
+          FB
+        </a>
 
-          {/* Desktop nav */}
-          <div className="hidden md:flex items-center gap-8">
-            {navLinks.map((link) => (
-              <a
-                key={link.href}
-                href={link.href}
-                className="text-sm text-muted-foreground hover:text-primary transition-colors"
-              >
-                {link.label}
-              </a>
-            ))}
-          </div>
-
-          {/* Mobile menu button */}
-          <button
-            className="md:hidden p-2 text-foreground"
-            onClick={() => setIsMenuOpen(!isMenuOpen)}
-          >
-            {isMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
-          </button>
+        {/* Desktop */}
+        <div className="hidden md:flex items-center gap-7">
+          {links.map((link) => (
+            <a
+              key={link.href}
+              href={link.href}
+              className="text-[12px] text-[rgba(255,255,255,0.8)] hover:text-white transition-colors duration-200"
+            >
+              {link.label}
+            </a>
+          ))}
         </div>
 
-        {/* Mobile menu */}
-        {isMenuOpen && (
-          <div className="md:hidden py-4 border-t border-border">
-            <div className="flex flex-col gap-4">
-              {navLinks.map((link) => (
-                <a
-                  key={link.href}
-                  href={link.href}
-                  className="text-muted-foreground hover:text-primary transition-colors"
-                  onClick={() => setIsMenuOpen(false)}
-                >
-                  {link.label}
-                </a>
-              ))}
-            </div>
-          </div>
-        )}
+        {/* Mobile toggle */}
+        <button
+          className="md:hidden text-white text-[18px] leading-none"
+          onClick={() => setIsMenuOpen(!isMenuOpen)}
+          aria-label="Menu"
+        >
+          {isMenuOpen ? '✕' : '☰'}
+        </button>
       </div>
+
+      {/* Mobile menu */}
+      {isMenuOpen && (
+        <div className="md:hidden bg-[#000000f2] backdrop-blur-md border-t border-[rgba(255,255,255,0.1)]">
+          {links.map((link) => (
+            <a
+              key={link.href}
+              href={link.href}
+              className="block px-6 py-3 text-[14px] text-[rgba(255,255,255,0.8)] hover:text-white transition-colors"
+              onClick={() => setIsMenuOpen(false)}
+            >
+              {link.label}
+            </a>
+          ))}
+        </div>
+      )}
     </nav>
   );
 };

@@ -1,101 +1,97 @@
-import { Briefcase, Calendar } from "lucide-react";
+import { useEffect, useRef } from 'react';
 
 const Experience = () => {
+  const ref = useRef<HTMLElement>(null);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => entries.forEach((e) => e.isIntersecting && e.target.classList.add('is-visible')),
+      { threshold: 0.1 }
+    );
+    const sections = ref.current?.querySelectorAll('.fade-section');
+    sections?.forEach((s) => observer.observe(s));
+    return () => observer.disconnect();
+  }, []);
+
   const experiences = [
     {
-      company: "BNP Soluções em TI",
-      role: "Analista de Testes Pleno",
-      period: "08/2022 - Atualmente",
+      company: 'BNP Soluções em TI',
+      role: 'Analista de Testes Pleno',
+      period: '08/2022 – Atualmente',
       current: true,
       highlights: [
-        "Definição de estratégias, planejamento e execução de cenários de testes em ambientes ágeis (Scrum/Kanban)",
-        "Automação de testes de API com Postman e K6, e testes E2E com Cypress e Playwright",
-        "Configuração de pipelines de CI/CD no Azure DevOps",
-        "Gerenciamento do time de QA, incluindo coordenação de atividades e liderança da equipe",
-        "Criação de métricas de qualidade em Power BI",
-        "Automação de testes em aplicativos mobile com Robot Framework",
-        "Uso de JavaScript, TypeScript e Python em scripts de automação",
+        'Definição de estratégias, planejamento e execução de cenários de testes em ambientes ágeis',
+        'Automação de testes de API com Postman e K6, e testes E2E com Cypress e Playwright',
+        'Configuração de pipelines de CI/CD no Azure DevOps',
+        'Gerenciamento do time de QA, coordenação de atividades e liderança',
+        'Criação de métricas de qualidade em Power BI',
+        'Automação de testes mobile com Robot Framework',
+        'JavaScript, TypeScript e Python em scripts de automação',
       ],
     },
     {
-      company: "BNP Soluções em TI",
-      role: "Auxiliar Técnico de Informática",
-      period: "11/2021 – 07/2022",
+      company: 'BNP Soluções em TI',
+      role: 'Auxiliar Técnico de Informática',
+      period: '11/2021 – 07/2022',
       current: false,
       highlights: [
-        "Atendimento ao cliente e suporte técnico de software",
-        "Assistência técnica para clientes internos e externos",
-        "Análise e melhoria de processos de TI",
+        'Atendimento ao cliente e suporte técnico de software',
+        'Análise e melhoria de processos de TI',
       ],
     },
     {
-      company: "Dellossi Comunicação e Marketing",
-      role: "Estagiária de Desenvolvimento",
-      period: "07/2021 – 11/2021",
+      company: 'Dellossi Comunicação e Marketing',
+      role: 'Estagiária de Desenvolvimento',
+      period: '07/2021 – 11/2021',
       current: false,
       highlights: [
-        "Desenvolvimento e manutenção de aplicações web e mobile com HTML e CSS",
-        "Personalização de sites no WordPress",
-        "Melhorias de usabilidade e qualidade",
+        'Desenvolvimento e manutenção de aplicações web e mobile',
+        'Personalização de sites no WordPress',
       ],
     },
   ];
 
   return (
-    <section id="experience" className="py-24 bg-background">
-      <div className="container mx-auto px-6">
-        <div className="max-w-4xl mx-auto">
-          {/* Section header */}
-          <div className="flex items-center gap-4 mb-12">
-            <div className="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center">
-              <Briefcase className="w-6 h-6 text-primary" />
-            </div>
-            <div>
-              <h2 className="text-3xl md:text-4xl font-bold font-display">Experiência</h2>
-              <p className="text-muted-foreground">Minha trajetória profissional</p>
-            </div>
-          </div>
+    <section id="experiencia" ref={ref} className="bg-white py-[80px] px-6">
+      <div className="max-w-[980px] mx-auto">
+        <h2 className="fade-section text-[40px] font-semibold text-[#1d1d1f] leading-[1.1] mb-12">
+          Experiência
+        </h2>
 
-          {/* Timeline */}
-          <div className="relative">
-            {/* Timeline line */}
-            <div className="absolute left-0 md:left-8 top-0 bottom-0 w-px bg-border" />
+        <div className="relative">
+          {/* Timeline line */}
+          <div className="absolute left-[7px] top-2 bottom-2 w-px bg-[#e0e0e0]" />
 
-            <div className="space-y-12">
-              {experiences.map((exp, index) => (
-                <div key={index} className="relative pl-8 md:pl-20">
-                  {/* Timeline dot */}
-                  <div className={`absolute left-0 md:left-8 -translate-x-1/2 w-4 h-4 rounded-full border-2 ${
-                    exp.current 
-                      ? 'bg-primary border-primary glow' 
-                      : 'bg-background border-muted-foreground'
-                  }`} />
+          <div className="space-y-12">
+            {experiences.map((exp, index) => (
+              <div key={index} className="fade-section relative pl-10">
+                {/* Timeline dot */}
+                <div
+                  className={`absolute left-0 top-2 w-[15px] h-[15px] rounded-full border-2 ${
+                    exp.current
+                      ? 'bg-[#0066cc] border-[#0066cc]'
+                      : 'bg-white border-[#e0e0e0]'
+                  }`}
+                />
 
-                  {/* Content card */}
-                  <div className="p-6 rounded-2xl bg-gradient-card border-glow card-shadow hover:border-primary/40 transition-colors">
-                    <div className="flex flex-wrap items-start justify-between gap-4 mb-4">
-                      <div>
-                        <h3 className="text-xl font-semibold font-display text-foreground">{exp.role}</h3>
-                        <p className="text-primary">{exp.company}</p>
-                      </div>
-                      <div className="flex items-center gap-2 px-3 py-1 rounded-full bg-secondary text-sm text-muted-foreground">
-                        <Calendar className="w-3 h-3" />
-                        {exp.period}
-                      </div>
-                    </div>
-
-                    <ul className="space-y-2">
-                      {exp.highlights.map((highlight, hIndex) => (
-                        <li key={hIndex} className="flex items-start gap-3 text-sm text-muted-foreground">
-                          <span className="w-1.5 h-1.5 rounded-full bg-primary mt-2 flex-shrink-0" />
-                          {highlight}
-                        </li>
-                      ))}
-                    </ul>
+                <div className="flex flex-wrap items-baseline justify-between gap-2 mb-3">
+                  <div>
+                    <h3 className="text-[21px] font-semibold text-[#1d1d1f]">{exp.role}</h3>
+                    <p className="text-[17px] text-[#0066cc]">{exp.company}</p>
                   </div>
+                  <span className="text-[14px] text-[#7a7a7a]">{exp.period}</span>
                 </div>
-              ))}
-            </div>
+
+                <ul className="space-y-2">
+                  {exp.highlights.map((h, hi) => (
+                    <li key={hi} className="flex items-start gap-3 text-[17px] text-[#333333] leading-[1.47]">
+                      <span className="w-[5px] h-[5px] rounded-full bg-[#0066cc] mt-[10px] shrink-0" />
+                      {h}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            ))}
           </div>
         </div>
       </div>

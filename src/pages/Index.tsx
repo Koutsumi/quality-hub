@@ -3,23 +3,23 @@ import Hero from "@/components/Hero";
 import About from "@/components/About";
 import Experience from "@/components/Experience";
 import Skills from "@/components/Skills";
-import CentralQA from "@/components/CentralQA";
-import QualityDashboard from "@/components/QualityDashboard";
+import Projects from "@/components/Projects";
 import Articles from "@/components/Articles";
 import Contact from "@/components/Contact";
+import Footer from "@/components/Footer";
 
 const Index = () => {
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen">
       <Navigation />
       <Hero />
       <About />
       <Experience />
       <Skills />
-      <CentralQA />
-      <QualityDashboard />
+      <Projects />
       <Articles />
       <Contact />
+      <Footer />
     </div>
   );
 };

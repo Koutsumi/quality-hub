@@ -1,80 +1,60 @@
-import { Wrench } from "lucide-react";
+import { useEffect, useRef } from 'react';
 
 const Skills = () => {
-  const skillCategories = [
-    {
-      title: "Automação de Testes",
-      skills: ["Cypress", "Playwright", "Robot Framework", "Postman", "K6"],
-    },
-    {
-      title: "Linguagens",
-      skills: ["JavaScript", "TypeScript", "Python", "SQL"],
-    },
-    {
-      title: "Ferramentas & CI/CD",
-      skills: ["Azure DevOps", "Git", "Power BI", "MongoDB"],
-    },
-  ];
+  const ref = useRef<HTMLElement>(null);
 
-  const methodologies = [
-    "Scrum",
-    "Kanban",
-    "Testes de API",
-    "Testes E2E",
-    "Testes de Performance",
-    "Testes Mobile",
-    "CI/CD",
-    "Análise de Impacto",
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => entries.forEach((e) => e.isIntersecting && e.target.classList.add('is-visible')),
+      { threshold: 0.15 }
+    );
+    const sections = ref.current?.querySelectorAll('.fade-section');
+    sections?.forEach((s) => observer.observe(s));
+    return () => observer.disconnect();
+  }, []);
+
+  const categories = [
+    {
+      title: 'Automação de Testes',
+      skills: ['Cypress', 'Playwright', 'Robot Framework', 'Postman', 'K6'],
+    },
+    {
+      title: 'Linguagens',
+      skills: ['JavaScript', 'TypeScript', 'Python', 'SQL'],
+    },
+    {
+      title: 'Ferramentas & CI/CD',
+      skills: ['Azure DevOps', 'Git', 'Power BI', 'MongoDB'],
+    },
+    {
+      title: 'Metodologias & Práticas',
+      skills: ['Scrum', 'Kanban', 'Testes de API', 'Testes E2E', 'Testes de Performance', 'Testes Mobile', 'CI/CD', 'Análise de Impacto'],
+    },
   ];
 
   return (
-    <section id="skills" className="py-24 bg-gradient-hero">
-      <div className="container mx-auto px-6">
-        <div className="max-w-6xl mx-auto">
-          {/* Section header */}
-          <div className="flex items-center gap-4 mb-12">
-            <div className="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center">
-              <Wrench className="w-6 h-6 text-primary" />
-            </div>
-            <div>
-              <h2 className="text-3xl md:text-4xl font-bold font-display">Habilidades</h2>
-              <p className="text-muted-foreground">Tecnologias e ferramentas que domino</p>
-            </div>
-          </div>
+    <section id="habilidades" ref={ref} className="bg-[#272729] py-[80px] px-6">
+      <div className="max-w-[980px] mx-auto">
+        <h2 className="fade-section text-[40px] font-semibold text-white leading-[1.1] mb-12">
+          Habilidades
+        </h2>
 
-          {/* Skills grid */}
-          <div className="grid md:grid-cols-3 gap-8 mb-12">
-            {skillCategories.map((category, catIndex) => (
-              <div key={catIndex} className="p-6 rounded-2xl bg-gradient-card border-glow card-shadow">
-                <h3 className="text-lg font-semibold font-display mb-6 text-primary">{category.title}</h3>
-                <div className="flex flex-wrap gap-2">
-                  {category.skills.map((skill, skillIndex) => (
-                    <span 
-                      key={skillIndex}
-                      className="px-4 py-2 rounded-full bg-secondary text-sm text-secondary-foreground hover:bg-primary/20 hover:text-primary transition-colors"
-                    >
-                      {skill}
-                    </span>
-                  ))}
-                </div>
+        <div className="fade-section grid md:grid-cols-2 gap-8">
+          {categories.map((cat) => (
+            <div key={cat.title}>
+              <h3 className="text-[21px] font-semibold text-[#2997ff] mb-4">{cat.title}</h3>
+              <div className="flex flex-wrap gap-2">
+                {cat.skills.map((skill) => (
+                  <span
+                    key={skill}
+                    className="px-4 py-[7px] rounded-full bg-[rgba(255,255,255,0.08)] text-[14px] text-[rgba(255,255,255,0.85)] border border-[rgba(255,255,255,0.1)] hover:bg-[rgba(41,151,255,0.15)] hover:text-[#2997ff] hover:border-[#2997ff]/30 transition-colors"
+                  >
+                    {skill}
+                  </span>
+                ))}
               </div>
-            ))}
-          </div>
-
-          {/* Methodologies */}
-          <div className="p-6 rounded-2xl bg-gradient-card border-glow card-shadow">
-            <h3 className="text-lg font-semibold font-display mb-6 text-center">Metodologias & Práticas</h3>
-            <div className="flex flex-wrap justify-center gap-3">
-              {methodologies.map((method, index) => (
-                <span 
-                  key={index}
-                  className="px-4 py-2 rounded-full bg-secondary text-sm text-secondary-foreground hover:bg-primary/20 hover:text-primary transition-colors cursor-default"
-                >
-                  {method}
-                </span>
-              ))}
             </div>
-          </div>
+          ))}
         </div>
       </div>
     </section>
