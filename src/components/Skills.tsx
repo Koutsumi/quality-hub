@@ -1,61 +1,95 @@
-import { useEffect, useRef } from 'react';
+import { motion, type Variants } from 'framer-motion';
+
+const fadeUp: Variants = {
+  hidden: { opacity: 0, y: 30 },
+  visible: (i: number) => ({
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.5, delay: i * 0.08, ease: [0.22, 1, 0.36, 1] },
+  }),
+};
 
 const Skills = () => {
-  const ref = useRef<HTMLElement>(null);
-
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      (entries) => entries.forEach((e) => e.isIntersecting && e.target.classList.add('is-visible')),
-      { threshold: 0.15 }
-    );
-    const sections = ref.current?.querySelectorAll('.fade-section');
-    sections?.forEach((s) => observer.observe(s));
-    return () => observer.disconnect();
-  }, []);
-
   const categories = [
     {
-      title: 'Automação de Testes',
-      skills: ['Cypress', 'Playwright', 'Robot Framework', 'Postman', 'K6'],
+      title: 'AI-Driven Testing',
+      color: 'from-violet-500 to-purple-600',
+      skills: ['Engenharia de Prompts para QA', 'Agentes de IA / LLMs', 'Automação de processos com IA', 'Custom Skills'],
     },
     {
-      title: 'Linguagens',
-      skills: ['JavaScript', 'TypeScript', 'Python', 'SQL'],
+      title: 'Automação & Testes',
+      color: 'from-cyan-400 to-blue-500',
+      skills: ['Robot Framework (Android/Web)', 'Cypress', 'Playwright', 'Postman', 'Testes E2E', 'Testes de API'],
     },
     {
-      title: 'Ferramentas & CI/CD',
-      skills: ['Azure DevOps', 'Git', 'Power BI', 'MongoDB'],
+      title: 'Performance & Estresse',
+      color: 'from-emerald-400 to-teal-500',
+      skills: ['K6', 'Testes de Carga', 'Concorrência', 'Volumetria', 'Testes de Estresse'],
     },
     {
-      title: 'Metodologias & Práticas',
-      skills: ['Scrum', 'Kanban', 'Testes de API', 'Testes E2E', 'Testes de Performance', 'Testes Mobile', 'CI/CD', 'Análise de Impacto'],
+      title: 'CI/CD & Gestão',
+      color: 'from-amber-400 to-orange-500',
+      skills: ['Azure DevOps', 'Pipelines CI/CD', 'Regressão Contínua', 'Estruturação de QA', 'Shift-Left'],
+    },
+    {
+      title: 'Linguagens & Dados',
+      color: 'from-pink-400 to-rose-500',
+      skills: ['JavaScript', 'TypeScript', 'Python', 'SQL', 'PostgreSQL', 'MongoDB'],
+    },
+    {
+      title: 'Métricas & Análise',
+      color: 'from-indigo-400 to-violet-500',
+      skills: ['Power BI', 'Análise de Causa Raiz', 'KPIs de Qualidade', 'Dashboards'],
     },
   ];
 
   return (
-    <section id="habilidades" ref={ref} className="bg-[#272729] py-[80px] px-6">
-      <div className="max-w-[980px] mx-auto">
-        <h2 className="fade-section text-[40px] font-semibold text-white leading-[1.1] mb-12">
-          Habilidades
-        </h2>
+    <section id="habilidades" className="relative py-[100px] px-6 bg-[rgba(139,92,246,0.02)]">
+      <div className="gradient-divider mb-20" />
 
-        <div className="fade-section grid md:grid-cols-2 gap-8">
-          {categories.map((cat) => (
-            <div key={cat.title}>
-              <h3 className="text-[21px] font-semibold text-[#2997ff] mb-4">{cat.title}</h3>
-              <div className="flex flex-wrap gap-2">
-                {cat.skills.map((skill) => (
-                  <span
-                    key={skill}
-                    className="px-4 py-[7px] rounded-full bg-[rgba(255,255,255,0.08)] text-[14px] text-[rgba(255,255,255,0.85)] border border-[rgba(255,255,255,0.1)] hover:bg-[rgba(41,151,255,0.15)] hover:text-[#2997ff] hover:border-[#2997ff]/30 transition-colors"
-                  >
-                    {skill}
-                  </span>
-                ))}
-              </div>
-            </div>
-          ))}
-        </div>
+      <div className="max-w-[1100px] mx-auto">
+        <motion.div
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, margin: '-80px' }}
+        >
+          <motion.span
+            custom={0}
+            variants={fadeUp}
+            className="text-[13px] font-semibold text-violet-400 uppercase tracking-[3px] mb-4 block"
+          >
+            Stack
+          </motion.span>
+          <motion.h2
+            custom={1}
+            variants={fadeUp}
+            className="text-[36px] md:text-[44px] font-bold text-white leading-[1.1] mb-14"
+          >
+            Habilidades <span className="glow-text">Técnicas</span>
+          </motion.h2>
+
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {categories.map((cat, index) => (
+              <motion.div
+                key={cat.title}
+                custom={index + 2}
+                variants={fadeUp}
+                className="glass rounded-2xl p-6 group hover:border-violet-500/20 transition-all duration-500"
+              >
+                <div className={`inline-block px-3 py-1 rounded-full bg-gradient-to-r ${cat.color} mb-4`}>
+                  <h3 className="text-[13px] font-bold text-white">{cat.title}</h3>
+                </div>
+                <div className="flex flex-wrap gap-2">
+                  {cat.skills.map((skill) => (
+                    <span key={skill} className="tag-pill">
+                      {skill}
+                    </span>
+                  ))}
+                </div>
+              </motion.div>
+            ))}
+          </div>
+        </motion.div>
       </div>
     </section>
   );

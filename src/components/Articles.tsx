@@ -1,18 +1,15 @@
-import { useEffect, useRef } from 'react';
+import { motion, type Variants } from 'framer-motion';
+
+const fadeUp: Variants = {
+  hidden: { opacity: 0, y: 30 },
+  visible: (i: number) => ({
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.5, delay: i * 0.08, ease: [0.22, 1, 0.36, 1] },
+  }),
+};
 
 const Articles = () => {
-  const ref = useRef<HTMLElement>(null);
-
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      (entries) => entries.forEach((e) => e.isIntersecting && e.target.classList.add('is-visible')),
-      { threshold: 0.15 }
-    );
-    const sections = ref.current?.querySelectorAll('.fade-section');
-    sections?.forEach((s) => observer.observe(s));
-    return () => observer.disconnect();
-  }, []);
-
   const articles = [
     {
       title: 'Autenticação via API com Playwright',
@@ -53,55 +50,73 @@ const Articles = () => {
   ];
 
   return (
-    <section id="artigos" ref={ref} className="bg-white py-[80px] px-6">
-      <div className="max-w-[980px] mx-auto">
-        <h2 className="fade-section text-[40px] font-semibold text-[#1d1d1f] leading-[1.1] mb-12">
-          Artigos
-        </h2>
+    <section id="artigos" className="relative py-[100px] px-6">
+      <div className="gradient-divider mb-20" />
 
-        <div className="fade-section grid md:grid-cols-2 lg:grid-cols-3 gap-5">
-          {articles.map((article) => (
-            <a
-              key={article.title}
-              href={article.url}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="group block p-6 rounded-[18px] bg-[#f5f5f7] hover:bg-[#ebebed] transition-colors"
-            >
-              <p className="text-[12px] text-[#7a7a7a] mb-3">{article.date}</p>
-              <h3 className="text-[17px] font-semibold text-[#1d1d1f] mb-4 group-hover:text-[#0066cc] transition-colors leading-[1.29]">
-                {article.title}
-              </h3>
-              <div className="flex flex-wrap gap-1.5 mb-4">
-                {article.tags.map((tag) => (
-                  <span
-                    key={tag}
-                    className="px-2.5 py-1 rounded-full bg-white text-[12px] text-[#7a7a7a]"
-                  >
-                    {tag}
-                  </span>
-                ))}
-              </div>
-              <span className="text-[14px] text-[#0066cc] opacity-0 group-hover:opacity-100 transition-opacity flex items-center gap-1">
-                Ler artigo ↗
-              </span>
-            </a>
-          ))}
-        </div>
+      <div className="max-w-[1100px] mx-auto">
+        <motion.div
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, margin: '-80px' }}
+        >
+          <motion.span
+            custom={0}
+            variants={fadeUp}
+            className="text-[13px] font-semibold text-violet-400 uppercase tracking-[3px] mb-4 block"
+          >
+            Publicações
+          </motion.span>
+          <motion.h2
+            custom={1}
+            variants={fadeUp}
+            className="text-[36px] md:text-[44px] font-bold text-white leading-[1.1] mb-14"
+          >
+            Artigos <span className="glow-text">Técnicos</span>
+          </motion.h2>
 
-        <div className="mt-10 text-center">
-          <p className="text-[14px] text-[#7a7a7a]">
-            Publicado em{' '}
-            <a
-              href="https://4future.com.br"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-[#0066cc] hover:underline"
-            >
-              4Future
-            </a>
-          </p>
-        </div>
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-5">
+            {articles.map((article, index) => (
+              <motion.a
+                key={article.title}
+                custom={index + 2}
+                variants={fadeUp}
+                href={article.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="group block p-6 glass rounded-2xl hover:border-violet-500/20 transition-all duration-500"
+              >
+                <p className="text-[12px] text-white/30 mb-3 font-mono">{article.date}</p>
+                <h3 className="text-[16px] font-semibold text-white mb-4 group-hover:text-violet-300 transition-colors leading-[1.35]">
+                  {article.title}
+                </h3>
+                <div className="flex flex-wrap gap-1.5 mb-4">
+                  {article.tags.map((tag) => (
+                    <span key={tag} className="tag-pill text-[11px] px-2 py-1">
+                      {tag}
+                    </span>
+                  ))}
+                </div>
+                <span className="text-[13px] text-violet-400 opacity-0 group-hover:opacity-100 transition-opacity flex items-center gap-1">
+                  Ler artigo ↗
+                </span>
+              </motion.a>
+            ))}
+          </div>
+
+          <motion.div custom={8} variants={fadeUp} className="mt-10 text-center">
+            <p className="text-[13px] text-white/30">
+              Publicado em{' '}
+              <a
+                href="https://4future.com.br"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-violet-400 hover:text-violet-300 transition-colors"
+              >
+                4Future
+              </a>
+            </p>
+          </motion.div>
+        </motion.div>
       </div>
     </section>
   );

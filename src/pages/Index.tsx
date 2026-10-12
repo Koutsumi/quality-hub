@@ -1,3 +1,4 @@
+import { motion } from 'framer-motion';
 import Navigation from "@/components/Navigation";
 import Hero from "@/components/Hero";
 import About from "@/components/About";
@@ -10,7 +11,12 @@ import Footer from "@/components/Footer";
 
 const Index = () => {
   return (
-    <div className="min-h-screen">
+    <motion.div
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      transition={{ duration: 0.5 }}
+      className="min-h-screen bg-[hsl(220,20%,4%)]"
+    >
       <Navigation />
       <Hero />
       <About />
@@ -20,7 +26,7 @@ const Index = () => {
       <Articles />
       <Contact />
       <Footer />
-    </div>
+    </motion.div>
   );
 };
 

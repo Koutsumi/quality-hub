@@ -1,47 +1,40 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 @layer base {
   :root {
-    --background: 0 0% 100%;
-    --foreground: 0 0% 11%;
+    --background: 220 20% 4%;
+    --foreground: 210 40% 98%;
 
-    --card: 0 0% 100%;
-    --card-foreground: 0 0% 11%;
+    --card: 220 18% 8%;
+    --card-foreground: 210 40% 98%;
 
-    --popover: 0 0% 100%;
-    --popover-foreground: 0 0% 11%;
+    --popover: 220 18% 8%;
+    --popover-foreground: 210 40% 98%;
 
-    --primary: 210 100% 40%;
+    --primary: 265 90% 65%;
     --primary-foreground: 0 0% 100%;
 
-    --secondary: 240 5% 96%;
-    --secondary-foreground: 0 0% 11%;
+    --secondary: 220 15% 12%;
+    --secondary-foreground: 210 40% 98%;
 
-    --muted: 240 5% 96%;
-    --muted-foreground: 0 0% 48%;
+    --muted: 220 15% 15%;
+    --muted-foreground: 215 20% 55%;
 
-    --accent: 240 5% 96%;
-    --accent-foreground: 0 0% 11%;
+    --accent: 160 85% 55%;
+    --accent-foreground: 0 0% 0%;
 
     --destructive: 0 63% 50%;
     --destructive-foreground: 0 0% 100%;
 
-    --border: 240 6% 90%;
-    --input: 240 6% 90%;
-    --ring: 210 100% 40%;
+    --border: 220 15% 18%;
+    --input: 220 15% 18%;
+    --ring: 265 90% 65%;
 
     --radius: 0.75rem;
-
-    --sidebar-background: 0 0% 97%;
-    --sidebar-foreground: 0 0% 11%;
-    --sidebar-primary: 210 100% 40%;
-    --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 240 5% 96%;
-    --sidebar-accent-foreground: 0 0% 11%;
-    --sidebar-border: 240 6% 90%;
-    --sidebar-ring: 210 100% 40%;
   }
 }
 
@@ -57,16 +50,74 @@
   }
 
   body {
-    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
-    color: #1d1d1f;
-    background: #ffffff;
-    font-size: 17px;
-    line-height: 1.47;
-    letter-spacing: -0.374px;
+    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+    color: hsl(var(--foreground));
+    background: hsl(var(--background));
+    font-size: 16px;
+    line-height: 1.6;
+    overflow-x: hidden;
   }
 }
 
-/* Fade-in on scroll */
+/* Custom scrollbar */
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: hsl(var(--background)); }
+::-webkit-scrollbar-thumb { background: hsl(var(--muted)); border-radius: 3px; }
+
+/* Glow text gradient */
+.glow-text {
+  background: linear-gradient(135deg, #a78bfa, #06b6d4, #a78bfa);
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: shimmer 3s ease-in-out infinite;
+}
+
+@keyframes shimmer {
+  0%, 100% { background-position: 0% center; }
+  50% { background-position: 200% center; }
+}
+
+/* Glass card */
+.glass {
+  background: rgba(255, 255, 255, 0.03);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.glass:hover {
+  background: rgba(139, 92, 246, 0.06);
+  border-color: rgba(139, 92, 246, 0.15);
+}
+
+/* Tag pill */
+.tag-pill {
+  @apply px-3 py-1.5 rounded-full text-[13px] font-medium transition-all duration-300;
+  background: rgba(139, 92, 246, 0.08);
+  color: rgba(167, 139, 250, 0.9);
+  border: 1px solid rgba(139, 92, 246, 0.12);
+}
+
+.tag-pill:hover {
+  background: rgba(139, 92, 246, 0.15);
+  border-color: rgba(139, 92, 246, 0.3);
+  color: #a78bfa;
+}
+
+/* Screenshot frame */
+.screenshot-frame {
+  @apply rounded-xl overflow-hidden;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4), 0 0 40px rgba(139, 92, 246, 0.05);
+}
+
+/* Gradient divider */
+.gradient-divider {
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(139, 92, 246, 0.3), rgba(6, 182, 212, 0.3), transparent);
+}
+
+/* Fade-in on scroll (legacy support) */
 .fade-section {
   opacity: 0;
   transform: translateY(24px);
